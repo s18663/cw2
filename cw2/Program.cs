@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace cw2
 {
@@ -10,83 +11,111 @@ namespace cw2
     {
         static void Main(string[] args)
         {
+
             var path = args[0];
             var resultpath = args[1];
-            var resulformat = args[2];
+            var resultformat = args[2];
             var lines = File.ReadLines(path);
             var hash = new HashSet<Student>(new MyComp());
             var today = DateTime.Today;
-            XmlSerializer xms = new XmlSerializer(typeof(Student));
+            University uni = new University();
+            uni.createdAt = today.ToString("dd.MM.yyyy");
+            uni.author = "Zuzanna Bubrowska";
 
-            try{
-                using (var logput = new StreamWriter(logpath))
+
+            using (var logput = new StreamWriter("log.txt"))
             {
-                using (var output = new StreamWriter(resultpath))
+                try
                 {
-                    using (XmlWriter writer = XmlWriter.Create(output))
+
+                    foreach (var line in lines)
                     {
-                        foreach (var line in lines)
+                        var data = line.Split(",");
+                        bool log = false;
+
+                        foreach (var value in data)
                         {
-                            var data = line.Split(",");
-                            bool log = false;
+                            if (string.IsNullOrEmpty(value))
+                                log = true;
+                        }
 
-                            foreach (var value in data)
+                        if (log)
+                        {
+                            logput.WriteLine(line);
+                        }
+                        else
+                        {
+                            Studies studies = new Studies { Name = data[2], Mode = data[3] };
+                            Student student = new Student
                             {
-                                if (string.IsNullOrEmpty(value))
-                                    log = true;
-                            }
+                                FirstName = data[0],
+                                LastName = data[1],
+                                Index = data[4],
+                                BirthDate = DateTime.Parse(data[5]),
+                                Email = data[6],
+                                MotherName = data[7],
+                                FatherName = data[8],
+                                Studies = studies
+                            };
 
-                            if (log)
+                            if (!hash.Add(student))
                             {
                                 logput.WriteLine(line);
                             }
                             else
                             {
-                                Studies studies = new Studies { Name = data[2], Mode = data[3] };
-                                Student student = new Student
-                                {
-                                    FirstName = data[0],
-                                    LastName = data[1],
-                                    Index = data[4],
-                                    BirthDate = DateTime.Parse(data[5]),
-                                    Email = data[6],
-                                    MotherName = data[7],
-                                    FatherName = data[8],
-                                    Studies = studies
-                                };
-
-                                if (!hash.Add(student))
-                                {
-                                    logput.WriteLine(line);
-                                }
-                                else
-                                {
-                                    xms.Serialize(writer, student);
-                                }
-
+                                hash.Add(student);
                             }
 
                         }
+
                     }
 
-                    var parsedDate = DateTime.Parse("2020-03-09");
-                    Console.WriteLine(parsedDate);
+                    uni.students = hash;
 
+                    if (resultformat == "xml")
+                    {
+                        XmlSerializerNamespaces xns = new XmlSerializerNamespaces();
+                        xns.Add("", "");
+                        using (FileStream writer = new FileStream(resultpath, FileMode.Create))
+                        {
+                            XmlRootAttribute root = new XmlRootAttribute("university");
+                            XmlSerializer serializer = new XmlSerializer(typeof(University), root);
+                            serializer.Serialize(writer, uni, xns);
+                        }
+
+                    }
+                    else if (resultformat == "json")
+                    {
+                        var result = JsonConvert.SerializeObject(uni, Newtonsoft.Json.Formatting.Indented);
+                        File.WriteAllText(resultpath, result);
+
+                    }
+                    else
+                    {
+                        logput.WriteLine("Nieobslugiwane rozszerzenie");
+                    }
                 }
-            }
-            }
-            catch(FileNotFoundException){
-                Console.WriteLine("Plik nie istnieje");
-                throw;
-            }
-            catch(ArgumentException){
-                Console.WriteLine("Podana sciezka jest niepoprawna");
-                throw;
-            }
+
+                //var parsedDate = DateTime.Parse("2020-03-09");
+                //Console.WriteLine(parsedDate);
 
 
-            
+
+                catch (FileNotFoundException)
+                {
+                    logput.WriteLine("Plik nie istnieje");
+                    throw;
+                }
+                catch (ArgumentException)
+                {
+                    logput.WriteLine("Podana sciezka jest niepoprawna");
+                    throw;
+                }
+
+            }
 
         }
+        
     }
 }

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "cw2": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Users\\miczi\\OneDrive\\Pulpit\\dane.csv\" \"C:\\Users\\miczi\\OneDrive\\Pulpit\\results.xml\" xml"
+    }
+  }
+}

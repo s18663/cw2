@@ -14,7 +14,7 @@ namespace cw2
 
         public int GetHashCode(Student obj)
         {
-           return StringComparer.CurrentCultureIgnoreCase.GetHashCode($"{obj.FirstName} {obj.LastName} {obj.Index}");
+            return StringComparer.CurrentCultureIgnoreCase.GetHashCode($"{obj.FirstName} {obj.LastName} {obj.Index}");
         }
     }
 }

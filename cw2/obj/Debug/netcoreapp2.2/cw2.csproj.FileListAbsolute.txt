@@ -1,0 +1,10 @@
+C:\Users\miczi\OneDrive\Pulpit\cw2\cw2\obj\Debug\netcoreapp2.2\cw2.csprojAssemblyReference.cache
+C:\Users\miczi\OneDrive\Pulpit\cw2\cw2\obj\Debug\netcoreapp2.2\cw2.AssemblyInfoInputs.cache
+C:\Users\miczi\OneDrive\Pulpit\cw2\cw2\obj\Debug\netcoreapp2.2\cw2.AssemblyInfo.cs
+C:\Users\miczi\OneDrive\Pulpit\cw2\cw2\bin\Debug\netcoreapp2.2\cw2.deps.json
+C:\Users\miczi\OneDrive\Pulpit\cw2\cw2\bin\Debug\netcoreapp2.2\cw2.runtimeconfig.json
+C:\Users\miczi\OneDrive\Pulpit\cw2\cw2\bin\Debug\netcoreapp2.2\cw2.runtimeconfig.dev.json
+C:\Users\miczi\OneDrive\Pulpit\cw2\cw2\bin\Debug\netcoreapp2.2\cw2.dll
+C:\Users\miczi\OneDrive\Pulpit\cw2\cw2\bin\Debug\netcoreapp2.2\cw2.pdb
+C:\Users\miczi\OneDrive\Pulpit\cw2\cw2\obj\Debug\netcoreapp2.2\cw2.dll
+C:\Users\miczi\OneDrive\Pulpit\cw2\cw2\obj\Debug\netcoreapp2.2\cw2.pdb
