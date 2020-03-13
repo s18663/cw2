@@ -11,14 +11,15 @@ namespace cw2
         static void Main(string[] args)
         {
             var path = args[0];
-            var logpath = args[1];
-            var resultpath = args[2];
+            var resultpath = args[1];
+            var resulformat = args[2];
             var lines = File.ReadLines(path);
             var hash = new HashSet<Student>(new MyComp());
             var today = DateTime.Today;
             XmlSerializer xms = new XmlSerializer(typeof(Student));
 
-            using (var logput = new StreamWriter(logpath))
+            try{
+                using (var logput = new StreamWriter(logpath))
             {
                 using (var output = new StreamWriter(resultpath))
                 {
@@ -73,6 +74,18 @@ namespace cw2
 
                 }
             }
+            }
+            catch(FileNotFoundException){
+                Console.WriteLine("Plik nie istnieje");
+                throw;
+            }
+            catch(ArgumentException){
+                Console.WriteLine("Podana sciezka jest niepoprawna");
+                throw;
+            }
+
+
+            
 
         }
     }
